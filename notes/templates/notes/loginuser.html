@@ -1,7 +1,11 @@
 {% extends 'notes/base.html' %}
 {% load static %}
 
-    {% block content %}
+{% block nav-header-left %}
+<a class="navbar-brand" href="{% url 'loginuser' %}">Your Private Productivity Space</a>
+{% endblock %}
+
+{% block content %}
       <br>
 
 
@@ -16,6 +20,7 @@
 </div><br>
         <h4 >Just do it! But first, Schedule.It</h4></div>
 
+    <a id="Login"></a>
     <div class = "container" style="background-color:hsl(300, 100%, 95%);" ><br>
         <h5> To continue, Please Log-in</h5><br>
     <form method ="POST">

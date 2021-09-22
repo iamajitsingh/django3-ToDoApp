@@ -1,6 +1,10 @@
 {% extends 'notes/base.html' %}
 {% load static %}
 
+{% block nav-header-left %}
+ <a class="navbar-brand" href="{% url 'currenttodos' %}">{{request.user.first_name}}'s Notepad</a>
+{% endblock %}
+
 {% block content %}
     <div class="row justify-content-center mt-5">
         <div class="col-md-5">

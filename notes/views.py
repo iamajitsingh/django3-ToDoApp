@@ -10,8 +10,14 @@ from .forms import TodoForm, CreateUserForm
 from email.message import EmailMessage
 import smtplib
 
+# Import Settings file
+from django.conf import settings as conf_settings
+
 
 def signupuser(request):
+    if request.user.is_authenticated:
+        return redirect('currenttodos')
+
     if request.method == 'GET':
         return render(request, 'notes/signupuser.html', {'form': CreateUserForm()})
     else:
@@ -19,7 +25,8 @@ def signupuser(request):
         if request.POST['password1'] == request.POST['password2']:
             try:
                 user = User.objects.create_user(request.POST['username'],
-                                                password=request.POST['password1'], first_name = request.POST['first_name'], email=request.POST['email'])
+                                                password=request.POST['password1'],
+                                                first_name=request.POST['first_name'], email=request.POST['email'])
                 user.save()
                 login(request, user)
                 # simple mail transfer protocol library
@@ -33,7 +40,7 @@ def signupuser(request):
                 msg['To'] = request.user.email
                 # Send the message via our own SMTP server.
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login("your.schedule.it@gmail.com", "jesuisiamajit")
+                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
                 server.send_message(msg)
                 server.quit()
                 # send e-mail. keep google api file in directory
@@ -48,6 +55,9 @@ def signupuser(request):
 
 
 def loginuser(request):
+    if request.user.is_authenticated:
+        return redirect('currenttodos')
+
     if request.method == 'GET':
         return render(request, 'notes/loginuser.html', {'form': AuthenticationForm()})
     else:
@@ -64,13 +74,14 @@ def loginuser(request):
 
                 msg = EmailMessage()
                 msg.set_content(
-                    'Dear ' + request.user.username + '\nYou have ' + str(todos) + ' remaining to-dos.\nYou just added ' + newtodo.title + '\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
+                    'Dear ' + request.user.username + '\nYou have ' + str(
+                        todos) + ' remaining to-dos.\nYou just added ' + newtodo.title + '\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
                 msg['Subject'] = str(todos) + ' To-dos left to complete !'
                 msg['From'] = "your.schedule.it@gmail.com"
                 msg['To'] = request.user.email
                 # Send the message via our own SMTP server.
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login("your.schedule.it@gmail.com", "jesuisiamajit")
+                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
                 server.send_message(msg)
                 server.quit()
                 # send e-mail. keep google api file in directory
@@ -103,13 +114,14 @@ def createtodo(request):
                 # start  session
                 msg = EmailMessage()
                 msg.set_content(
-                    'Dear ' + request.user.username + '\nYou have ' + str(todos) + ' remaining to-dos.\nYou just added ' + newtodo.title + '\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
+                    'Dear ' + request.user.username + '\nYou have ' + str(
+                        todos) + ' remaining to-dos.\nYou just added ' + newtodo.title + '\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
                 msg['Subject'] = str(todos) + ' To-dos left to complete !'
                 msg['From'] = "your.schedule.it@gmail.com"
                 msg['To'] = request.user.email
                 # Send the message via our own SMTP server.
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login("your.schedule.it@gmail.com", "jesuisiamajit")
+                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
                 server.send_message(msg)
                 server.quit()
                 mail = 1
@@ -126,7 +138,7 @@ def createtodo(request):
                 msg['To'] = to
                 # Send the message via our own SMTP server.
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login("your.schedule.it@gmail.com", "jesuisiamajit")
+                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
                 server.send_message(msg)
                 server.quit()
                 # send e-mail. keep google api file in directory
@@ -170,7 +182,7 @@ def viewtodo(request, todo_pk):
                 msg['To'] = request.user.email
                 # Send the message via our own SMTP server.
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login("your.schedule.it@gmail.com", "jesuisiamajit")
+                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
                 server.send_message(msg)
                 server.quit()
                 # send e-mail. keep google api file in directory

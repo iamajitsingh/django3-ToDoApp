@@ -1,6 +1,10 @@
 {% extends 'notes/base.html' %}
 {% load static %}
 
+{% block nav-header-left %}
+<a class="navbar-brand" href="{% url 'currenttodos' %}">{{request.user.first_name}}'s Wall</a>
+{% endblock %}
+
 {% block content %}
 <div class="container text-center">
 <br>
