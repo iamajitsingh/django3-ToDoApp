@@ -75,7 +75,7 @@ def loginuser(request):
                 msg = EmailMessage()
                 msg.set_content(
                     'Dear ' + request.user.username + '\nYou have ' + str(
-                        todos) + ' remaining to-dos.\nYou just added ' + newtodo.title + '\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
+                        todos) + ' remaining to-dos.\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
                 msg['Subject'] = str(todos) + ' To-dos left to complete !'
                 msg['From'] = "your.schedule.it@gmail.com"
                 msg['To'] = request.user.email
