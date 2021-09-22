@@ -130,4 +130,8 @@ EMAIL_HOST_PASSWORD = 'jesuisiamajit'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
+try:
+    from .local_settings import *
+except ImportError:
+    print("No local file found. You must be on production.")
 
