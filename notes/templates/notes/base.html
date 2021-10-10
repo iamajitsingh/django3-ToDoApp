@@ -27,7 +27,7 @@
 
     <div class="container">
 
-        <img src="{% static 'notes/Logo.png' %}" width="40" height="40" class="d-inline-block align-top">
+        <a class="navbar-brand" href="{% url 'currenttodos' %}"><img src="{% static 'notes/Logo.png' %}" width="40" height="40" class="d-inline-block align-top"></a>
         {% block nav-header-left %}
         {% endblock %}
 
@@ -56,7 +56,7 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a href="#" onclick="$('#signOutBtn').click()" class="nav-link">Logout</a>
+                    <a href="#" style="background-color:hsl(302, 100%, 94%);" onclick="$('#signOutBtn').click()" class="nav-link">Logout</a>
                     <form style='display: none;' method="POST" action="{% url 'logoutuser' %}">
                         {% csrf_token %}
                         <button id="signOutBtn" type="submit">Logout</button>
