@@ -1,6 +1,6 @@
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -12,6 +12,19 @@ import smtplib
 
 # Import Settings file
 from django.conf import settings as conf_settings
+
+
+def sendmail(to_message, subject='', message=''):
+    msg = EmailMessage()
+    msg['From'] = conf_settings.EMAIL_HOST_USER
+    msg['To'] = to_message
+    msg['Subject'] = subject
+    msg.set_content(message)
+    # Send the message via our own SMTP server.
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
+    server.send_message(msg)
+    server.quit()
 
 
 def signupuser(request):
@@ -29,21 +42,10 @@ def signupuser(request):
                                                 first_name=request.POST['first_name'], email=request.POST['email'])
                 user.save()
                 login(request, user)
-                # simple mail transfer protocol library
-                # start  session
-                msg = EmailMessage()
-                msg.set_content(
-                    'Dear ' + request.user.username + ','
-                                                      '\nWelcome to Schedule.It.\nWe are glad to have you aboard. Keep crushing tasks and keep updating them at scheduleIT.pythonanywhere.com.')
-                msg['Subject'] = 'Thank you for registering'
-                msg['From'] = "your.schedule.it@gmail.com"
-                msg['To'] = request.user.email
-                # Send the message via our own SMTP server.
-                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
-                server.send_message(msg)
-                server.quit()
-                # send e-mail. keep google api file in directory
+                # send on-register email
+                sub = 'Thank you for registering'
+                msg = 'Dear ' + request.user.username + ',\nWelcome to Schedule.It.\nWe are glad to have you aboard. Keep crushing and updating tasks at scheduleIT.pythonanywhere.com.'
+                sendmail(request.user.email, sub, msg)
                 return redirect('currenttodos')
             except IntegrityError:
 
@@ -69,22 +71,10 @@ def loginuser(request):
             login(request, user)
             todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True).count()
             if todos > 5:
-                # simple mail transfer protocol library
-                # start  session
-
-                msg = EmailMessage()
-                msg.set_content(
-                    'Dear ' + request.user.username + '\nYou have ' + str(
-                        todos) + ' remaining to-dos.\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
-                msg['Subject'] = str(todos) + ' To-dos left to complete !'
-                msg['From'] = "your.schedule.it@gmail.com"
-                msg['To'] = request.user.email
-                # Send the message via our own SMTP server.
-                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
-                server.send_message(msg)
-                server.quit()
-                # send e-mail. keep google api file in directory
+                # send reminder mail
+                sub = str(todos) + ' To-dos left to complete !'
+                msg = 'Dear ' + request.user.username + '\nYou have ' + str(todos) + ' remaining to-dos.\nMake sure to finish them and reach your goals!!\n\nKeep crushing and updating tasks at scheduleIT.pythonanywhere.com.'
+                sendmail(request.user.email, sub, msg)
             return redirect('currenttodos')
 
 
@@ -110,38 +100,16 @@ def createtodo(request):
             todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True).count()
             mail = 0
             if todos > 5:
-                # simple mail transfer protocol library
-                # start  session
-                msg = EmailMessage()
-                msg.set_content(
-                    'Dear ' + request.user.username + '\nYou have ' + str(
-                        todos) + ' remaining to-dos.\nYou just added ' + newtodo.title + '\n Make sure to finish them and reach your goals!!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
-                msg['Subject'] = str(todos) + ' To-dos left to complete !'
-                msg['From'] = "your.schedule.it@gmail.com"
-                msg['To'] = request.user.email
-                # Send the message via our own SMTP server.
-                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
-                server.send_message(msg)
-                server.quit()
+                # send reminder mail
+                sub = str(todos) + ' To-dos left to complete !'
+                msg = 'Dear ' + request.user.username + ',\nYou have ' + str(todos) + ' remaining to-dos.\nYou just added ' + newtodo.title + '\nMake sure to finish them and reach your goals!!\n\nKeep crushing and updating tasks at scheduleIT.pythonanywhere.com.'
+                sendmail(request.user.email, sub, msg)
                 mail = 1
-                # send e-mail. keep google api file in directory
             if newtodo.important and mail == 0:
-                # simple mail transfer protocol library
-                # start  session
-                msg = EmailMessage()
-                msg.set_content(
-                    'Dear ' + request.user.username + '.\nYou have added an important note. ' + newtodo.title + '\nCrush the task and visit us back!')
-                msg['Subject'] = 'You added an important note on Schedule.It'
-                msg['From'] = "your.schedule.it@gmail.com"
-                to = request.user.email
-                msg['To'] = to
-                # Send the message via our own SMTP server.
-                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
-                server.send_message(msg)
-                server.quit()
-                # send e-mail. keep google api file in directory
+                # send important to-do note mail
+                sub = 'You added an important note on Schedule.It'
+                msg = 'Dear ' + request.user.username + ',\nYou have added an important note. ' + newtodo.title + '\nCrush the task and visit us back!'
+                sendmail(request.user.email, sub, msg)
             return redirect('currenttodos')
         except ValueError:
             return render(request, 'notes/createtodo.html',
@@ -172,28 +140,14 @@ def viewtodo(request, todo_pk):
             form.save()
             newtodo = form.save(commit=False)
             if newtodo.important:
-                # simple mail transfer protocol library
-                # start  session
-                msg = EmailMessage()
-                msg.set_content(
-                    'Dear' + request.user.username + ' you have added an important note. ' + newtodo.title + ' Crush the task and visit us back!\n\nKeep crushing tasks and update them at scheduleIT.pythonanywhere.com.')
-                msg['Subject'] = 'You updated an important note on Schedule.It'
-                msg['From'] = "your.schedule.it@gmail.com"
-                msg['To'] = request.user.email
-                # Send the message via our own SMTP server.
-                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                server.login(conf_settings.EMAIL_HOST_USER, conf_settings.EMAIL_HOST_PASSWORD)
-                server.send_message(msg)
-                server.quit()
-                # send e-mail. keep google api file in directory
+                # send important to-do updation email
+                sub = 'You updated an important note on Schedule.It'
+                msg = 'Dear ' + request.user.username + ' you have updated an important note. ' + newtodo.title + '\nCrush the task and visit us back!\n\nKeep crushing and updating tasks at scheduleIT.pythonanywhere.com.'
+                sendmail(request.user.email, sub, msg)
             return redirect('currenttodos')
         except ValueError:
             return render(request, 'todo/createtodo.html',
                           {'form': TodoForm(), 'error': 'Bad data passed in. Try again.'})
-
-            return redirect('currenttodos')
-        except ValueError:
-            return render(request, 'notes/viewtodo.html', {'todo': todo, 'form': form, 'error': 'Bad info'})
 
 
 @login_required
