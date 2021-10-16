@@ -15,6 +15,8 @@ from django.conf import settings as conf_settings
 
 
 def sendmail(to_message, subject='', message=''):
+    if conf_settings.EMAIL_HOST_USER == "":
+        return
     msg = EmailMessage()
     msg['From'] = conf_settings.EMAIL_HOST_USER
     msg['To'] = to_message
