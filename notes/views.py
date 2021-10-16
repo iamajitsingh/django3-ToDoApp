@@ -15,8 +15,10 @@ from django.conf import settings as conf_settings
 
 
 def sendmail(to_message, subject='', message=''):
+    # When coding on development server, no need to send emails; return
     if conf_settings.EMAIL_HOST_USER == "":
         return
+    # When in production, send emails
     msg = EmailMessage()
     msg['From'] = conf_settings.EMAIL_HOST_USER
     msg['To'] = to_message

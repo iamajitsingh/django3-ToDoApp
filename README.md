@@ -1,5 +1,8 @@
 # django3-ToDoApp
-Schedule_it is an app which allows you to create an account, create/update/track your important to-dos.
+
+<img style="text-align: center;" height="100" src="https://scheduleit.pythonanywhere.com/static/notes/Logo.png" width="100" alt="logo"/>
+
+Schedule.It is an app which allows you to create an account, create/update/track your important to-dos.
 Some functionalities:
 1. New user registration.
 2. User Login, Logout.
