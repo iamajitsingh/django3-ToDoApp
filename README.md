@@ -9,9 +9,9 @@ Some functionalities:
 6. Get notification emails for important To-Dos.
 
 ## Instructions to contribute
-1. Clone the repo. 
-
-2. Create a virtual environment and activate it. Not required by highly recommended. 
+1. Fork the repo
+2. Clone the version of your fork locally.
+3. Create a virtual environment and activate it. Not required by highly recommended. 
 ```bash
 python -m venv env
 .\env\Scripts\activate
