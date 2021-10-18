@@ -9,7 +9,8 @@ Some functionalities:
 3. Create, Update, View & Delete To-Dos.
 4. Add description to your To-Dos.
 5. Mark certain To-Dos as '**Important**': Assign Priority to your work!
-6. Get notification emails for important To-Dos.
+6. Mark To-Dos as 'Completed' if you successfully completed the task or mark them as 'Couldn't Complete' if you couldn't! 
+7. Get notification emails for important To-Dos.
 
 ## Instructions to contribute
 1. Fork the repo.
