@@ -1,0 +1,23 @@
+{% extends 'notes/base.html' %}
+{% load static %}
+
+{% block nav-header-left %}
+ <a class="navbar-brand" href="{% url 'currenttodos' %}">{{request.user.first_name}}'s Archives</a>
+{% endblock %}
+  {% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+
+            <h1 class ="alert" style="background-color:hsl(0, 0%, 92%);">Tasks {{request.user.first_name}} Failed to Complete</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="list-group">
+                {% for todo in todos %}
+                    <a href="{% url 'viewtodo' todo.id %}" class="list-group-item list-group-item-action{% if todo.important %} list-group-item-danger{% endif %}"><b>{{ todo.title }}</b> - Task created {{ todo.created |date:'M j Y H:i' }} by {{todo.user.username}}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

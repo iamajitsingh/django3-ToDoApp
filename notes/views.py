@@ -77,7 +77,8 @@ def loginuser(request):
             if todos > 5:
                 # send reminder mail
                 sub = str(todos) + ' To-dos left to complete !'
-                msg = 'Dear ' + request.user.username + '\nYou have ' + str(todos) + ' remaining to-dos.\nMake sure to finish them and reach your goals!!\n\nKeep crushing and updating tasks at scheduleIT.pythonanywhere.com.'
+                msg = 'Dear ' + request.user.username + '\nYou have ' + str(
+                    todos) + ' remaining to-dos.\nMake sure to finish them and reach your goals!!\n\nKeep crushing and updating tasks at scheduleIT.pythonanywhere.com.'
                 sendmail(request.user.email, sub, msg)
             return redirect('currenttodos')
 
@@ -122,14 +123,20 @@ def createtodo(request):
 
 @login_required
 def currenttodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True, didnotcomplete=False)
     return render(request, 'notes/currenttodos.html', {'todos': todos})
 
 
 @login_required
 def completedtodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
+    todos = Todo.objects.filter(user=request.user, didnotcomplete=False, datecompleted__isnull=False).order_by('-datecompleted')
     return render(request, 'notes/completedtodos.html', {'todos': todos})
+
+
+@login_required
+def notcompleted(request):
+    todos = Todo.objects.filter(user=request.user, didnotcomplete=True).order_by('-datecompleted')
+    return render(request, 'notes/notcompletedtodos.html', {'todos': todos})
 
 
 @login_required
@@ -159,6 +166,17 @@ def completetodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'POST':
         todo.datecompleted = timezone.now()
+        todo.didnotcomplete = False
+        todo.save()
+        return redirect('currenttodos')
+
+
+@login_required
+def didnotcompletetodo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.datecompleted = timezone.now()
+        todo.didnotcomplete = True
         todo.save()
         return redirect('currenttodos')
 

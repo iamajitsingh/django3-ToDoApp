@@ -1,9 +1,9 @@
 .navbar-nav .nav-link {
-    color: rgba(0,0,0,1) !important;
+    color: rgba(0,0,0,1);
 }
 
 .navbar-nav .nav-link:hover {
-    color: rgba(0,0,0,0.5) !important;
+    color: rgba(0,0,0,0.5);
 }
 
 body {
@@ -15,7 +15,4 @@ body {
         font-size: 4rem;
     }
 
-}
-#booklist{
-   font-size: 92px;
 }

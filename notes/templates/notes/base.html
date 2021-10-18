@@ -43,12 +43,15 @@
                 <li class="nav-item {{ current }}">
                     <a class="nav-link" style="background-color:hsl(60, 100%, 90%);" href="{% url 'currenttodos' %}">Home</a>
                 </li>
+                 <li class="nav-item {{ create }}">
+                    <a class="nav-link" style="background-color:hsl(300, 65%, 81%);" href="{% url 'createtodo' %}">Create</a>
+                </li>
                 <li class="nav-item {{ completed }}">
                     <a class="nav-link" style="background-color: hsl(160, 100%, 75%);"
                        href="{% url 'completedtodos' %}">Completed</a>
                 </li>
-                <li class="nav-item {{ create }}">
-                    <a class="nav-link" style="background-color:hsl(300, 65%, 81%);" href="{% url 'createtodo' %}">Create</a>
+                <li class="nav-item">
+                    <a class="nav-link" style="background-color: hsl(178, 60%, 55%)	;"  href="{% url 'notcompleted' %}">Hall of Shame</a>
                 </li>
 
             </ul>
