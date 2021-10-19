@@ -2,36 +2,38 @@
 {% load static %}
 
 {% block nav-header-left %}
-<a class="navbar-brand" href="{% url 'currenttodos' %}">{{request.user.first_name}}'s Wall</a>
+<a class="navbar-brand" href="{% url 'currenttodos' %}" style="color: white;">{{request.user.first_name}}'s Wall</a>
 {% endblock %}
 
 {% block content %}
-<div class="container text-center">
-<br>
-    <div class="container text-center">
-            {% if todos %}
-                <h2  class ="alert" style="background-color:hsl(49, 97%, 93%);">{{ todos.count }} Task{{ todos.count|pluralize }} for {{request.user.first_name}}</h2>
-            {% else %}
-                           <h2  class ="alert" style="background-color:hsl(49, 97%, 93%);" >{{request.user.first_name}}'s Current Tasks</h2>
-            {% endif %}
-        </div>
-    </div>
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-10">
-        {% if todos %}
-            <div class="list-group">
-                {% for todo in todos %}
-                    <a href="{% url 'viewtodo' todo.id %}" class="list-group-item list-group-item-action{% if todo.important %} list-group-item-danger{% endif %}"><b>{{ todo.title }}</b>{% if todo.memo %} - {{ todo.memo|truncatechars:30 }} {% endif %} Created at {{todo.created}} </a>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="text-center">
-                <h2 class ="alert" style="background-color:hsl(326, 81%, 93%);">Looks like you don't have any to-dos remaining! Nice work.</h2>
+    <div class="container">
+            <div class="container text-center">
             <br>
-            <a role="button" class="btn btn-primary" href="{% url 'createtodo' %}">Add a new to-do!</a>
+                <div class="text-center">
+                    {% if todos %}
+                        <h2  class ="alert shadow p-3 mb-5 bg-white rounded" style="background-color:#3AAFA9;" >{{ todos.count }} Task{{ todos.count|pluralize }} for {{request.user.first_name}}</h2>
+                    {% else %}
+                        <h2  class ="alert shadow p-3 mb-5 bg-white rounded" style="background-color:#3AAFA9;" >{{request.user.first_name}}'s Current Tasks</h2>
+                    {% endif %}
+                </div>
             </div>
-        {% endif %}
-        </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-10">
+                {% if todos %}
+                    <div class="list-group">
+                        {% for todo in todos %}
+                            <a href="{% url 'viewtodo' todo.id %}" class="list-group-item list-group-item-action{% if todo.important %} list-group-item-danger{% endif %}"><b>{{ todo.title }}</b>{% if todo.memo %} - {{ todo.memo|truncatechars:30 }} {% endif %} Created at {{todo.created}} </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <h2 class ="alert shadow-sm p-3 mb-5 bg-white rounded">Looks like you don't have any to-dos remaining! Nice work.</h2>
+                    <br>
+                    <a role="button" class="btn" style="background-color: #17252A; color:white;" href="{% url 'createtodo' %}">Add a new to-do!</a>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
     </div>
 
 {% endblock %}
