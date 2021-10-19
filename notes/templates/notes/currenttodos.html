@@ -7,17 +7,16 @@
 
 {% block content %}
     <div class="container">
-            <div class="container text-center">
-            <br>
-                <div class="text-center">
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10">
                     {% if todos %}
-                        <h2  class ="alert shadow p-3 mb-5 bg-white rounded" style="background-color:#3AAFA9;" >{{ todos.count }} Task{{ todos.count|pluralize }} for {{request.user.first_name}}</h2>
+                        <h2  class ="alert shadow p-3 mb-3 bg-white rounded" style="background-color:#3AAFA9;" >{{ todos.count }} Task{{ todos.count|pluralize }} for {{request.user.first_name}}</h2>
                     {% else %}
-                        <h2  class ="alert shadow p-3 mb-5 bg-white rounded" style="background-color:#3AAFA9;" >{{request.user.first_name}}'s Current Tasks</h2>
+                        <h2  class ="alert shadow p-3 mb-3 bg-white rounded" style="background-color:#3AAFA9;" >{{request.user.first_name}}'s Current Tasks</h2>
                     {% endif %}
                 </div>
             </div>
-            <div class="row justify-content-center mt-5">
+            <div class="row justify-content-center mt-3">
                 <div class="col-md-10">
                 {% if todos %}
                     <div class="list-group">
