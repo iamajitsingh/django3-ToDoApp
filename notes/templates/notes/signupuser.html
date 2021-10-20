@@ -20,14 +20,14 @@
   <title>Schedule.It</title>
 </head>
 
-<body>
+<body style="background-color: #2B7A78;">
 
-  <nav id="topNav" class="navbar navbar-expand-md navbar-light" style="background-color: #e3f2fd;">
+  <nav id="topNav" class="navbar navbar-expand-md navbar-light " style="background-color: #17252A;">
 
       <div class="container">
 
          <img src="{% static 'notes/Logo.png' %}" width="40" height="40" class="d-inline-block align-top">
-          <a class="navbar-brand" href="#">Your Private Productivity Space</a>
+          <a class="navbar-brand ml-2" href="#" style="color: white;">Your Private Productivity Space</a>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon">Schedule.It</span>
@@ -36,7 +36,7 @@
       <div class="collapse navbar-collapse text-center" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li>
-            <a role="button" href="{% url 'loginuser' %}" class="btn btn-outline-dark">Log-In</a>
+            <a role="button" href="{% url 'loginuser' %}" class="btn" style="background-color:#64f0e9; color:black;">Log-In</a>
           </li>
 
         </ul>
@@ -46,10 +46,10 @@
 
 <br>
 
-<div class="container text-center">
+<div class="container text-center" style="max-width: 800px;">
     {% block content %}
-<h2 class ="alert" style="background-color:hsl(326, 81%, 93%);">Welcome to the club ! Sign Up </h2>
-<div class = "container" style="background-color:hsl(60, 100%, 97%)	;" ><br>
+<h4 class ="alert shadow p-2 mb-2 bg-white rounded" style="background-color:#3AAFA9;">Welcome to the club ! Sign Up </h4>
+<div class = "container shadow bg-white rounded" ><br>
     <form method ="POST">
     {% if error %}
                 <div class="alert alert-warning" role="alert">
@@ -64,15 +64,13 @@
 
     (Confirm): {{ form.password2 }} <br><br>
 
-    <h5>Please make sure to match the two passwords.</h5>
-    <h5>If username is not available, you will be informed!</h5>
-    <button type="submit"class="btn" style="background-color:hsl(302, 100%, 87%);">Sign Up</button>
+    <span>Please make sure to match the two passwords.</span><br>
+    <span>If username is not available, you will be informed!</span><br>
+    <button type="submit" class="btn mt-2" style="background-color: #17252A; color:white;">Sign Up</button>
         <br><br>
-    </form></div>
-      <hr>
-            <div class="text-center">
-                Do you already have an account? <a href="{% url 'loginuser' %}">Login here</a>
-            </div>
+    </form>
+  </div>
+      
 </div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
