@@ -4,7 +4,7 @@
 <img height="100" src="https://scheduleit.pythonanywhere.com/static/notes/Logo.png" width="100" alt="logo"/>
 </div>
 
-Schedule.It is an app which allows you to create an account, create/update/track your important to-dos.
+Schedule.It is a web app which allows you create/update/track your important to-dos. Create an account and get started!
 Some functionalities:
 1. New user registration.
 2. User Login, Logout.
@@ -12,9 +12,9 @@ Some functionalities:
 4. Add description to your To-Dos.
 5. Mark certain To-Dos as '**Important**': Assign Priority to your work!
 6. Mark To-Dos as 'Completed' if you successfully completed the task or mark them as 'Couldn't Complete' if you couldn't! 
-7. Get notification emails for important To-Dos.
+7. Get notification emails for important To-Dos and some other stuff.
 
-## Instructions to contribute
+## Help us by contributing! Tips for getting started:
 1. Fork the repo.
 2. Clone the version of your fork locally.
 3. Create a virtual environment and activate it. Not required but highly recommended. 
@@ -40,9 +40,8 @@ python manage.py runserver
 6. Create a superuser (```python manage.py createsuperuser ```) to access Django admin interface.
 7. Go through the [CONTRIBUTING.md](CONTRIBUTING.md) file to get started with contributions.
 
-
 ## Any Questions?
 Feel free to raise an issue. We'll try to answer this as soon as we can. 
 
 ## Contributing Guidelines
-If there is any valid contribution, please raise an issue and feel free to create a pull request. We will review it and merge it to the master branch. 
+Please refer to step #7 of tips for getting started with contributions, mentioned above.
